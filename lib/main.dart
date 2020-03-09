@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import './widgets/edit_citation.dart';
 
 void main() => runApp(ReciteApp());
 
@@ -71,6 +72,7 @@ class _CitationsPageState extends State<CitationsPage> {
       body: new Center(
           child: new Column(
         children: <Widget>[
+          EditCitation(),
           new Expanded(child: _buildCitationsList()),
         ],
       )),

@@ -7,19 +7,15 @@ class DatePicker extends StatelessWidget {
 
   DatePicker({@required this.date, @required this.onChange});
 
-  void _openDatePicker(BuildContext context) {
-    showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2019),
-      lastDate: DateTime.now(),
-    ).then((pickedDate) {
-      if (pickedDate == null) {
-        return;
-      }
+  Future<Null> _selectDate(BuildContext context) async {
+    final DateTime pickedDate = await showDatePicker(
+        context: context,
+        initialDate: this.date,
+        firstDate: DateTime(2019),
+        lastDate: DateTime.now());
+    if (pickedDate != null && pickedDate != this.date) {
       onChange(pickedDate);
-    });
-    print('...');
+    }
   }
 
   @override
@@ -40,7 +36,7 @@ class DatePicker extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            onPressed: () => _openDatePicker(context),
+            onPressed: () => _selectDate(context),
           )
         ]));
   }

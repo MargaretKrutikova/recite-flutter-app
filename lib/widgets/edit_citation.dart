@@ -24,7 +24,9 @@ class _EditCitationState extends State<EditCitation> {
   }
 
   void _setAddedDate(DateTime date) {
-    _addedDate = date;
+    setState(() {
+      _addedDate = date;
+    });
   }
 
   void _submitData() {
