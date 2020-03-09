@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import './widgets/edit_citation.dart';
+import './models/citation.dart';
 
 void main() => runApp(ReciteApp());
 
@@ -36,19 +38,17 @@ class CitationsPage extends StatefulWidget {
 }
 
 class _CitationsPageState extends State<CitationsPage> {
-  int _counter = 0;
-  List<String> _citations = <String>[];
+  List<Citation> _citations = <Citation>[];
 
-  void _addRandomCitation() {
+  void _addCitation(Citation citation) {
     setState(() {
-      _counter++;
-      _citations.add("Random citation " + _counter.toString());
+      _citations.add(citation);
     });
   }
 
-  Widget _buildRow(String citation) {
+  Widget _buildRow(Citation citation) {
     return ListTile(
-      title: Text(citation),
+      title: Text('${citation.citation} (c) ${citation.author}'),
     );
   }
 
@@ -72,15 +72,17 @@ class _CitationsPageState extends State<CitationsPage> {
       body: new Center(
           child: new Column(
         children: <Widget>[
-          EditCitation(),
+          EditCitation(
+            onSubmit: _addCitation,
+          ),
           new Expanded(child: _buildCitationsList()),
         ],
       )),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _addRandomCitation,
-        tooltip: 'Add citation',
-        child: Icon(Icons.add),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: _addRandomCitation,
+      //   tooltip: 'Add citation',
+      //   child: Icon(Icons.add),
+      // ),
     );
   }
 }

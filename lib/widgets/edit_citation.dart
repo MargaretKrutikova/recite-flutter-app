@@ -48,17 +48,19 @@ class _EditCitationState extends State<EditCitation> {
           TextField(
             decoration: InputDecoration(labelText: 'Citation'),
             controller: _citationTextController,
-            onSubmitted: (_) => _submitData(),
           ),
           TextField(
             decoration: InputDecoration(labelText: 'Author'),
             controller: _authorController,
-            onSubmitted: (_) => _submitData(),
           ),
           DatePicker(
             date: _addedDate,
             onChange: _setAddedDate,
-          )
+          ),
+          RaisedButton(
+              child: const Text('Save'),
+              onPressed: this._submitData,
+              color: Colors.green),
         ],
       )),
     );
