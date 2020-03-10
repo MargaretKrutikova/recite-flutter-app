@@ -40,29 +40,30 @@ class _EditCitationState extends State<EditCitation> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 5,
-      child: Container(
-          child: Column(
+    return Container(
+      alignment: Alignment.center,
+      child: Column(
         children: <Widget>[
           TextField(
             decoration: InputDecoration(labelText: 'Citation'),
             controller: _citationTextController,
+            style: Theme.of(context).textTheme.body1,
           ),
           TextField(
             decoration: InputDecoration(labelText: 'Author'),
             controller: _authorController,
+            style: Theme.of(context).textTheme.body1,
           ),
           DatePicker(
             date: _addedDate,
-            onChange: _setAddedDate,
+            onDateChanged: _setAddedDate,
           ),
           RaisedButton(
               child: const Text('Save'),
               onPressed: this._submitData,
               color: Colors.green),
         ],
-      )),
+      ),
     );
   }
 }

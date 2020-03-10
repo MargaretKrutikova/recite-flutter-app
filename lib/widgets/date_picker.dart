@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class DatePicker extends StatelessWidget {
-  final DateTime date;
-  final Function onChange;
+typedef void DateChangedCallback(DateTime dateTime);
 
-  DatePicker({@required this.date, @required this.onChange});
+class DatePicker extends StatelessWidget {
+  DatePicker({@required this.date, @required this.onDateChanged});
+
+  final DateTime date;
+  final DateChangedCallback onDateChanged;
 
   Future<Null> _selectDate(BuildContext context) async {
     final DateTime pickedDate = await showDatePicker(
@@ -13,8 +15,9 @@ class DatePicker extends StatelessWidget {
         initialDate: this.date,
         firstDate: DateTime(2019),
         lastDate: DateTime.now());
+
     if (pickedDate != null && pickedDate != this.date) {
-      onChange(pickedDate);
+      onDateChanged(pickedDate);
     }
   }
 

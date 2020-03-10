@@ -13,6 +13,11 @@ class ReciteApp extends StatelessWidget {
       title: 'Recite',
       theme: ThemeData(
         primarySwatch: Colors.green,
+        textTheme: TextTheme(
+          headline: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
+          title: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
+          body1: TextStyle(fontSize: 22.0, fontFamily: 'Hind'),
+        ),
       ),
       home: CitationsPage(title: 'Citations Page'),
     );
@@ -44,6 +49,7 @@ class _CitationsPageState extends State<CitationsPage> {
     setState(() {
       _citations.add(citation);
     });
+    _closeBottomSheetNavigation();
   }
 
   Widget _buildRow(Citation citation) {
@@ -61,6 +67,10 @@ class _CitationsPageState extends State<CitationsPage> {
         });
   }
 
+  void _closeBottomSheetNavigation() {
+    Navigator.of(context).pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,17 +82,26 @@ class _CitationsPageState extends State<CitationsPage> {
       body: new Center(
           child: new Column(
         children: <Widget>[
-          EditCitation(
-            onSubmit: _addCitation,
-          ),
-          new Expanded(child: _buildCitationsList()),
+          Expanded(child: _buildCitationsList()),
         ],
       )),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: _addRandomCitation,
-      //   tooltip: 'Add citation',
-      //   child: Icon(Icons.add),
-      // ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          showModalBottomSheet(
+              context: context,
+              builder: (context) => Container(
+                  padding: EdgeInsets.all(20.0),
+                  child: Column(
+                    children: <Widget>[
+                      EditCitation(
+                        onSubmit: _addCitation,
+                      ),
+                    ],
+                  )));
+        },
+        tooltip: 'Add citation',
+        child: Icon(Icons.add),
+      ),
     );
   }
 }
