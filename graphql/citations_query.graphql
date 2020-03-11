@@ -1,8 +1,10 @@
 query Citations($slug: String!) {
   collections(where: { slug: { _eq: $slug } }) {
+    id
     citations(order_by: { added: desc, id: desc }) {
       id
       text
+      added
       author {
         id
         name
