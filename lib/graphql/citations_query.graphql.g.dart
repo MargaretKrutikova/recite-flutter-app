@@ -27,6 +27,8 @@ Citations$query_root$collections$citations
   return Citations$query_root$collections$citations()
     ..id = json['id'] as int
     ..text = json['text'] as String
+    ..added =
+        json['added'] == null ? null : DateTime.parse(json['added'] as String)
     ..author = json['author'] == null
         ? null
         : Citations$query_root$collections$citations$authors.fromJson(
@@ -38,12 +40,14 @@ Map<String, dynamic> _$Citations$query_root$collections$citationsToJson(
     <String, dynamic>{
       'id': instance.id,
       'text': instance.text,
+      'added': instance.added?.toIso8601String(),
       'author': instance.author?.toJson(),
     };
 
 Citations$query_root$collections _$Citations$query_root$collectionsFromJson(
     Map<String, dynamic> json) {
   return Citations$query_root$collections()
+    ..id = json['id'] as String
     ..citations = (json['citations'] as List)
         ?.map((e) => e == null
             ? null
@@ -55,6 +59,7 @@ Citations$query_root$collections _$Citations$query_root$collectionsFromJson(
 Map<String, dynamic> _$Citations$query_root$collectionsToJson(
         Citations$query_root$collections instance) =>
     <String, dynamic>{
+      'id': instance.id,
       'citations': instance.citations?.map((e) => e?.toJson())?.toList(),
     };
 

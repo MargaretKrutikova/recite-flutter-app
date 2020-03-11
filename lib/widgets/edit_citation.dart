@@ -35,7 +35,7 @@ class _EditCitationState extends State<EditCitation> {
     widget.onSubmit(Citation(
         addedDate: _addedDate,
         author: _authorController.text,
-        citation: _citationTextController.text));
+        text: _citationTextController.text));
   }
 
   @override

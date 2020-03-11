@@ -37,10 +37,12 @@ class Citations$query_root$collections$citations with EquatableMixin {
 
   String text;
 
+  DateTime added;
+
   Citations$query_root$collections$citations$authors author;
 
   @override
-  List<Object> get props => [id, text, author];
+  List<Object> get props => [id, text, added, author];
   Map<String, dynamic> toJson() =>
       _$Citations$query_root$collections$citationsToJson(this);
 }
@@ -53,10 +55,12 @@ class Citations$query_root$collections with EquatableMixin {
           Map<String, dynamic> json) =>
       _$Citations$query_root$collectionsFromJson(json);
 
+  String id;
+
   List<Citations$query_root$collections$citations> citations;
 
   @override
-  List<Object> get props => [citations];
+  List<Object> get props => [id, citations];
   Map<String, dynamic> toJson() =>
       _$Citations$query_root$collectionsToJson(this);
 }
@@ -128,6 +132,12 @@ class CitationsQuery
               directives: [],
               selectionSet: SelectionSetNode(selections: [
                 FieldNode(
+                    name: NameNode(value: 'id'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null),
+                FieldNode(
                     name: NameNode(value: 'citations'),
                     alias: null,
                     arguments: [
@@ -154,6 +164,12 @@ class CitationsQuery
                           selectionSet: null),
                       FieldNode(
                           name: NameNode(value: 'text'),
+                          alias: null,
+                          arguments: [],
+                          directives: [],
+                          selectionSet: null),
+                      FieldNode(
+                          name: NameNode(value: 'added'),
                           alias: null,
                           arguments: [],
                           directives: [],
