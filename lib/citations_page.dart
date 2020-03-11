@@ -4,33 +4,34 @@ import './models/citation.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 import './graphql/citations_query.dart';
+import './graphql/add_citation_mutation.dart';
 
-class CitationsPage extends StatefulWidget {
-  CitationsPage({Key key, this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
+class CitationsPage extends StatelessWidget {
+  CitationsPage({Key key, @required this.title, @required this.client})
+      : super(key: key);
 
   final String title;
+  final GraphQLClient client;
 
-  @override
-  _CitationsPageState createState() => _CitationsPageState();
-}
+  Future<QueryResult> addCitation(BuildContext context,
+      Refetch refetchCitations, String collectionId, Citation citation) async {
+    final variables = AddCitationArguments(
+        authorName: citation.author,
+        date: DateTime.now(),
+        text: citation.text,
+        collectionId: collectionId);
 
-class _CitationsPageState extends State<CitationsPage> {
-  List<Citation> _citations = <Citation>[];
+    // TODO: implement cache updates instead of full refetch
+    final MutationOptions _options = MutationOptions(
+        documentNode: AddCitationMutation(variables: variables).document,
+        variables: variables.toJson(),
+        update: (Cache cache, QueryResult result) => {},
+        onCompleted: (dynamic data) => refetchCitations());
 
-  void _addCitation(Citation citation) {
-    setState(() {
-      _citations.add(citation);
-    });
-    _closeBottomSheetNavigation();
+    final queryResult = await this.client.mutate(_options);
+
+    _closeBottomSheetNavigation(context);
+    return queryResult;
   }
 
   Widget _buildRow(Citations$query_root$collections$citations citation) {
@@ -49,7 +50,7 @@ class _CitationsPageState extends State<CitationsPage> {
         });
   }
 
-  void _closeBottomSheetNavigation() {
+  void _closeBottomSheetNavigation(context) {
     Navigator.of(context).pop();
   }
 
@@ -78,14 +79,18 @@ class _CitationsPageState extends State<CitationsPage> {
           }
 
           final data = Citations$query_root.fromJson(result.data);
+          final collection =
+              data.collections.length > 0 ? data.collections[0] : null;
           final List<Citations$query_root$collections$citations> citations =
-              data.collections.length > 0 ? data.collections[0].citations : [];
+              collection != null ? collection.citations : [];
+
+          final collectionId = collection != null ? collection.id : null;
 
           return Scaffold(
             appBar: AppBar(
               // Here we take the value from the MyHomePage object that was created by
               // the App.build method, and use it to set our appbar title.
-              title: Text(widget.title),
+              title: Text(this.title),
             ),
             body: new Center(
                 child: new Column(
@@ -102,7 +107,8 @@ class _CitationsPageState extends State<CitationsPage> {
                         child: Column(
                           children: <Widget>[
                             EditCitation(
-                              onSubmit: _addCitation,
+                              onSubmit: (Citation citation) => addCitation(
+                                  context, refetch, collectionId, citation),
                             ),
                           ],
                         )));

@@ -18,10 +18,10 @@ ValueNotifier<GraphQLClient> clientFor({
 /// We use the cache for all state management.
 class ClientProvider extends StatelessWidget {
   ClientProvider({
+    @required this.client,
     @required this.child,
-    @required String uri,
     String subscriptionUri,
-  }) : client = clientFor(uri: uri);
+  });
 
   final Widget child;
   final ValueNotifier<GraphQLClient> client;
