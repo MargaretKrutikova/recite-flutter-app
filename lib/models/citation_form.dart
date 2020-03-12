@@ -1,11 +1,11 @@
 import 'package:flutter/foundation.dart';
 
-class Citation {
+class CitationForm {
   final String text;
   final String author;
   final DateTime addedDate;
 
-  Citation({
+  CitationForm({
     @required this.text,
     @required this.author,
     @required this.addedDate,

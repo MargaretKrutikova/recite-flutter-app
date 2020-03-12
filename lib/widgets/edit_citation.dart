@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import './date_picker.dart';
 
-import '../models/citation.dart';
+import '../models/citation_form.dart';
 
 class EditCitation extends StatefulWidget {
   EditCitation({@required this.onSubmit});
@@ -32,7 +32,7 @@ class _EditCitationState extends State<EditCitation> {
   void _submitData() {
     if (!_isValid()) return;
 
-    widget.onSubmit(Citation(
+    widget.onSubmit(CitationForm(
         addedDate: _addedDate,
         author: _authorController.text,
         text: _citationTextController.text));
