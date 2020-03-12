@@ -20,7 +20,8 @@ class ReciteApp extends StatelessWidget {
           body1: TextStyle(fontSize: 22.0, fontFamily: 'Hind'),
         ),
       ),
-      home: CitationsPage(title: 'Citations Page', client: client),
+      home: CitationsPage(
+          title: 'Citations Page', collectionSlug: "test", client: client),
     );
   }
 
