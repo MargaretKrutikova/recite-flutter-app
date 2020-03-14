@@ -1,0 +1,9 @@
+fragment Citation on citations {
+  id
+  text
+  added
+  author {
+    id
+    name
+  }
+}

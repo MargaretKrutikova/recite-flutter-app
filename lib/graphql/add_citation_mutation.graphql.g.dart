@@ -6,23 +6,6 @@ part of 'add_citation_mutation.graphql.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-AddCitation$mutation_root$citations_mutation_response$citations$authors
-    _$AddCitation$mutation_root$citations_mutation_response$citations$authorsFromJson(
-        Map<String, dynamic> json) {
-  return AddCitation$mutation_root$citations_mutation_response$citations$authors()
-    ..id = json['id'] as int
-    ..name = json['name'] as String;
-}
-
-Map<String, dynamic>
-    _$AddCitation$mutation_root$citations_mutation_response$citations$authorsToJson(
-            AddCitation$mutation_root$citations_mutation_response$citations$authors
-                instance) =>
-        <String, dynamic>{
-          'id': instance.id,
-          'name': instance.name,
-        };
-
 AddCitation$mutation_root$citations_mutation_response$citations
     _$AddCitation$mutation_root$citations_mutation_response$citationsFromJson(
         Map<String, dynamic> json) {
@@ -33,8 +16,8 @@ AddCitation$mutation_root$citations_mutation_response$citations
         json['added'] == null ? null : DateTime.parse(json['added'] as String)
     ..author = json['author'] == null
         ? null
-        : AddCitation$mutation_root$citations_mutation_response$citations$authors
-            .fromJson(json['author'] as Map<String, dynamic>);
+        : AddCitation$mutation_root$citations$authors.fromJson(
+            json['author'] as Map<String, dynamic>);
 }
 
 Map<String, dynamic>
@@ -80,6 +63,21 @@ Map<String, dynamic> _$AddCitation$mutation_rootToJson(
         AddCitation$mutation_root instance) =>
     <String, dynamic>{
       'insert_citations': instance.insert_citations?.toJson(),
+    };
+
+AddCitation$mutation_root$citations$authors
+    _$AddCitation$mutation_root$citations$authorsFromJson(
+        Map<String, dynamic> json) {
+  return AddCitation$mutation_root$citations$authors()
+    ..id = json['id'] as int
+    ..name = json['name'] as String;
+}
+
+Map<String, dynamic> _$AddCitation$mutation_root$citations$authorsToJson(
+        AddCitation$mutation_root$citations$authors instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
     };
 
 AddCitationArguments _$AddCitationArgumentsFromJson(Map<String, dynamic> json) {

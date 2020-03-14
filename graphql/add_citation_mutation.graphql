@@ -19,13 +19,7 @@ mutation AddCitation(
     }
   ) {
     returning {
-      id
-      text
-      added
-      author {
-        id
-        name
-      }
+      ...Citation
     }
   }
 }

@@ -5,44 +5,6 @@ schema {
 }
 
 """
-Direct the client to resolve this field locally, either from the cache or local resolvers.
-"""
-directive @client(
-  """
-  When true, the client will never use the cache for this value. See
-  https://www.apollographql.com/docs/react/essentials/local-state/#forcing-resolvers-with-clientalways-true
-  """
-  always: Boolean
-) on FIELD | FRAGMENT_DEFINITION | INLINE_FRAGMENT
-
-"""
-Export this locally resolved field as a variable to be used in the remainder of this query. See
-https://www.apollographql.com/docs/react/essentials/local-state/#using-client-fields-as-variables
-"""
-directive @export(
-  """
-  The variable name to export this field as.
-  """
-  as: String!
-) on FIELD
-
-"""
-Specify a custom store key for this result. See
-https://www.apollographql.com/docs/react/advanced/caching/#the-connection-directive
-"""
-directive @connection(
-  """
-  Specify the store key.
-  """
-  key: String!
-
-  """
-  An array of query argument names to include in the generated custom store key.
-  """
-  filter: [String!]
-) on FIELD
-
-"""
 columns and relationships of "authors"
 """
 type authors {
@@ -1198,8 +1160,16 @@ input date_comparison_exp {
   _nin: [date!]
 }
 
+input get_latest_citation_args {
+  collectionid: uuid
+}
+
 input get_random_citation_args {
   collectionid: uuid
+}
+
+input get_random_citation_by_slug_args {
+  collectionslug: String
 }
 
 """
@@ -1587,6 +1557,76 @@ type query_root {
   collections_by_pk(id: uuid!): collections
 
   """
+  execute function "get_latest_citation" which returns "citations"
+  """
+  get_latest_citation(
+    """
+    input parameters for function "get_latest_citation"
+    """
+    args: get_latest_citation_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [citations_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [citations_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: citations_bool_exp
+  ): [citations!]!
+
+  """
+  execute function "get_latest_citation" and query aggregates on result of table type "citations"
+  """
+  get_latest_citation_aggregate(
+    """
+    input parameters for function "get_latest_citation"
+    """
+    args: get_latest_citation_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [citations_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [citations_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: citations_bool_exp
+  ): citations_aggregate!
+
+  """
   execute function "get_random_citation" which returns "citations"
   """
   get_random_citation(
@@ -1629,6 +1669,76 @@ type query_root {
     input parameters for function "get_random_citation"
     """
     args: get_random_citation_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [citations_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [citations_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: citations_bool_exp
+  ): citations_aggregate!
+
+  """
+  execute function "get_random_citation_by_slug" which returns "citations"
+  """
+  get_random_citation_by_slug(
+    """
+    input parameters for function "get_random_citation_by_slug"
+    """
+    args: get_random_citation_by_slug_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [citations_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [citations_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: citations_bool_exp
+  ): [citations!]!
+
+  """
+  execute function "get_random_citation_by_slug" and query aggregates on result of table type "citations"
+  """
+  get_random_citation_by_slug_aggregate(
+    """
+    input parameters for function "get_random_citation_by_slug"
+    """
+    args: get_random_citation_by_slug_args!
 
     """
     distinct select on columns
@@ -1878,6 +1988,76 @@ type subscription_root {
   collections_by_pk(id: uuid!): collections
 
   """
+  execute function "get_latest_citation" which returns "citations"
+  """
+  get_latest_citation(
+    """
+    input parameters for function "get_latest_citation"
+    """
+    args: get_latest_citation_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [citations_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [citations_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: citations_bool_exp
+  ): [citations!]!
+
+  """
+  execute function "get_latest_citation" and query aggregates on result of table type "citations"
+  """
+  get_latest_citation_aggregate(
+    """
+    input parameters for function "get_latest_citation"
+    """
+    args: get_latest_citation_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [citations_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [citations_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: citations_bool_exp
+  ): citations_aggregate!
+
+  """
   execute function "get_random_citation" which returns "citations"
   """
   get_random_citation(
@@ -1920,6 +2100,76 @@ type subscription_root {
     input parameters for function "get_random_citation"
     """
     args: get_random_citation_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [citations_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [citations_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: citations_bool_exp
+  ): citations_aggregate!
+
+  """
+  execute function "get_random_citation_by_slug" which returns "citations"
+  """
+  get_random_citation_by_slug(
+    """
+    input parameters for function "get_random_citation_by_slug"
+    """
+    args: get_random_citation_by_slug_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [citations_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [citations_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: citations_bool_exp
+  ): [citations!]!
+
+  """
+  execute function "get_random_citation_by_slug" and query aggregates on result of table type "citations"
+  """
+  get_random_citation_by_slug_aggregate(
+    """
+    input parameters for function "get_random_citation_by_slug"
+    """
+    args: get_random_citation_by_slug_args!
 
     """
     distinct select on columns

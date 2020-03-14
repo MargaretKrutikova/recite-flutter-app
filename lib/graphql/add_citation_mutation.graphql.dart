@@ -7,45 +7,22 @@ import 'package:equatable/equatable.dart';
 import 'package:gql/ast.dart';
 part 'add_citation_mutation.graphql.g.dart';
 
-@JsonSerializable(explicitToJson: true)
-class AddCitation$mutation_root$citations_mutation_response$citations$authors
-    with EquatableMixin {
-  AddCitation$mutation_root$citations_mutation_response$citations$authors();
-
-  factory AddCitation$mutation_root$citations_mutation_response$citations$authors.fromJson(
-          Map<String, dynamic> json) =>
-      _$AddCitation$mutation_root$citations_mutation_response$citations$authorsFromJson(
-          json);
-
+mixin AddCitation$CitationMixin {
   int id;
-
-  String name;
-
-  @override
-  List<Object> get props => [id, name];
-  Map<String, dynamic> toJson() =>
-      _$AddCitation$mutation_root$citations_mutation_response$citations$authorsToJson(
-          this);
+  String text;
+  DateTime added;
+  AddCitation$mutation_root$citations$authors author;
 }
 
 @JsonSerializable(explicitToJson: true)
 class AddCitation$mutation_root$citations_mutation_response$citations
-    with EquatableMixin {
+    with EquatableMixin, AddCitation$CitationMixin {
   AddCitation$mutation_root$citations_mutation_response$citations();
 
   factory AddCitation$mutation_root$citations_mutation_response$citations.fromJson(
           Map<String, dynamic> json) =>
       _$AddCitation$mutation_root$citations_mutation_response$citationsFromJson(
           json);
-
-  int id;
-
-  String text;
-
-  DateTime added;
-
-  AddCitation$mutation_root$citations_mutation_response$citations$authors
-      author;
 
   @override
   List<Object> get props => [id, text, added, author];
@@ -84,6 +61,24 @@ class AddCitation$mutation_root with EquatableMixin {
   @override
   List<Object> get props => [insert_citations];
   Map<String, dynamic> toJson() => _$AddCitation$mutation_rootToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class AddCitation$mutation_root$citations$authors with EquatableMixin {
+  AddCitation$mutation_root$citations$authors();
+
+  factory AddCitation$mutation_root$citations$authors.fromJson(
+          Map<String, dynamic> json) =>
+      _$AddCitation$mutation_root$citations$authorsFromJson(json);
+
+  int id;
+
+  String name;
+
+  @override
+  List<Object> get props => [id, name];
+  Map<String, dynamic> toJson() =>
+      _$AddCitation$mutation_root$citations$authorsToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -205,44 +200,54 @@ class AddCitationMutation
                     arguments: [],
                     directives: [],
                     selectionSet: SelectionSetNode(selections: [
-                      FieldNode(
-                          name: NameNode(value: 'id'),
-                          alias: null,
-                          arguments: [],
-                          directives: [],
-                          selectionSet: null),
-                      FieldNode(
-                          name: NameNode(value: 'text'),
-                          alias: null,
-                          arguments: [],
-                          directives: [],
-                          selectionSet: null),
-                      FieldNode(
-                          name: NameNode(value: 'added'),
-                          alias: null,
-                          arguments: [],
-                          directives: [],
-                          selectionSet: null),
-                      FieldNode(
-                          name: NameNode(value: 'author'),
-                          alias: null,
-                          arguments: [],
-                          directives: [],
-                          selectionSet: SelectionSetNode(selections: [
-                            FieldNode(
-                                name: NameNode(value: 'id'),
-                                alias: null,
-                                arguments: [],
-                                directives: [],
-                                selectionSet: null),
-                            FieldNode(
-                                name: NameNode(value: 'name'),
-                                alias: null,
-                                arguments: [],
-                                directives: [],
-                                selectionSet: null)
-                          ]))
+                      FragmentSpreadNode(
+                          name: NameNode(value: 'Citation'), directives: [])
                     ]))
+              ]))
+        ])),
+    FragmentDefinitionNode(
+        name: NameNode(value: 'Citation'),
+        typeCondition: TypeConditionNode(
+            on: NamedTypeNode(
+                name: NameNode(value: 'citations'), isNonNull: false)),
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+              name: NameNode(value: 'id'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: null),
+          FieldNode(
+              name: NameNode(value: 'text'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: null),
+          FieldNode(
+              name: NameNode(value: 'added'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: null),
+          FieldNode(
+              name: NameNode(value: 'author'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: SelectionSetNode(selections: [
+                FieldNode(
+                    name: NameNode(value: 'id'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null),
+                FieldNode(
+                    name: NameNode(value: 'name'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null)
               ]))
         ]))
   ]);

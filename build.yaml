@@ -7,6 +7,7 @@ targets:
     builders:
       artemis:
         options:
+          fragments_glob: graphql/fragments.graphql
           schema_mapping:
             - schema: schema.graphql
               queries_glob: graphql/citations_query.graphql
@@ -14,6 +15,9 @@ targets:
             - schema: schema.graphql
               queries_glob: graphql/add_citation_mutation.graphql
               output: lib/graphql/add_citation_mutation.dart
+            - schema: schema.graphql
+              queries_glob: graphql/subscribe_to_latest_citation.graphql
+              output: lib/graphql/subscribe_to_latest_citation.dart
           custom_parser_import: "package:recite_flutter/coercers.dart"
           scalar_mapping:
             - graphql_type: date
