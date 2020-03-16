@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recite_flutter/theme.dart';
 import './date_picker.dart';
 
 import '../models/citation_form.dart';
@@ -61,7 +62,7 @@ class _EditCitationState extends State<EditCitation> {
           RaisedButton(
               child: const Text('Save'),
               onPressed: this._submitData,
-              color: Colors.green),
+              color: AppColors.primaryColor),
         ],
       ),
     );
