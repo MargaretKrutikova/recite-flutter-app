@@ -7,35 +7,26 @@ import '../models/citation_form.dart';
 import './edit_citation.dart';
 
 class AddCitationButton extends StatelessWidget {
-  AddCitationButton(
-      {@required this.client,
-      @required this.collectionId,
-      @required this.refetch});
+  AddCitationButton({@required this.client, @required this.collectionId});
   final GraphQLClient client;
   final String collectionId;
-  final Function refetch;
 
   void _closeBottomSheetNavigation(context) {
     Navigator.of(context).pop();
   }
 
   Future<QueryResult> addCitation(
-      BuildContext context,
-      Refetch refetchCitations,
-      String collectionId,
-      CitationForm citation) async {
+      BuildContext context, String collectionId, CitationForm citation) async {
     final variables = AddCitationArguments(
         authorName: citation.author,
         date: DateTime.now(),
         text: citation.text,
         collectionId: collectionId);
 
-    // TODO: implement cache updates instead of full refetch
     final MutationOptions _options = MutationOptions(
-        documentNode: AddCitationMutation(variables: variables).document,
-        variables: variables.toJson(),
-        update: (Cache cache, QueryResult result) => {},
-        onCompleted: (dynamic data) => refetchCitations());
+      documentNode: AddCitationMutation(variables: variables).document,
+      variables: variables.toJson(),
+    );
 
     final queryResult = await this.client.mutate(_options);
 
@@ -49,16 +40,24 @@ class AddCitationButton extends StatelessWidget {
       onPressed: () {
         showModalBottomSheet(
             context: context,
-            builder: (context) => Container(
-                padding: EdgeInsets.all(20.0),
-                child: Column(
-                  children: <Widget>[
-                    EditCitation(
-                      onSubmit: (CitationForm citation) =>
-                          addCitation(context, refetch, collectionId, citation),
-                    ),
-                  ],
-                )));
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(40.0),
+            ),
+            backgroundColor: Theme.of(context).backgroundColor,
+            isScrollControlled: true,
+            builder: (context) => FractionallySizedBox(
+                heightFactor: 0.8,
+                child: Container(
+                    child: Container(
+                        padding: EdgeInsets.all(20.0),
+                        child: Column(
+                          children: <Widget>[
+                            EditCitation(
+                              onSubmit: (CitationForm citation) =>
+                                  addCitation(context, collectionId, citation),
+                            ),
+                          ],
+                        )))));
       },
       tooltip: 'Add citation',
       child: Icon(Icons.add),
