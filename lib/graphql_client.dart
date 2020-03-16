@@ -1,10 +1,21 @@
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:flutter/material.dart';
 
-ValueNotifier<GraphQLClient> clientFor({
-  @required String uri,
-}) {
-  Link link = HttpLink(uri: uri);
+final graphqlUri = 'https://recite-api.margareta.dev/v1/graphql';
+final subscriptionUri = 'wss://recite-api.margareta.dev/v1/graphql';
+
+ValueNotifier<GraphQLClient> createClient() {
+  Link link = HttpLink(uri: graphqlUri);
+
+  final WebSocketLink websocketLink = WebSocketLink(
+    url: subscriptionUri,
+    config: SocketClientConfig(
+      autoReconnect: true,
+      inactivityTimeout: Duration(seconds: 30),
+    ),
+  );
+
+  link = link.concat(websocketLink);
 
   return ValueNotifier<GraphQLClient>(
     GraphQLClient(
