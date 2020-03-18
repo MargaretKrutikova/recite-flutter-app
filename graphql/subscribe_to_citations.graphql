@@ -1,0 +1,7 @@
+subscription getCitationsAfterId($collectionId: uuid!, $lastCitationId: Int!) {
+  get_citations_after_id(
+    args: { collectionid: $collectionId, lastcitationid: $lastCitationId }
+  ) {
+    ...Citation
+  }
+}

@@ -1160,6 +1160,11 @@ input date_comparison_exp {
   _nin: [date!]
 }
 
+input get_citations_after_id_args {
+  collectionid: uuid
+  lastcitationid: Int
+}
+
 input get_latest_citation_args {
   collectionid: uuid
 }
@@ -1555,6 +1560,76 @@ type query_root {
   fetch data from the table: "collections" using primary key columns
   """
   collections_by_pk(id: uuid!): collections
+
+  """
+  execute function "get_citations_after_id" which returns "citations"
+  """
+  get_citations_after_id(
+    """
+    input parameters for function "get_citations_after_id"
+    """
+    args: get_citations_after_id_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [citations_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [citations_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: citations_bool_exp
+  ): [citations!]!
+
+  """
+  execute function "get_citations_after_id" and query aggregates on result of table type "citations"
+  """
+  get_citations_after_id_aggregate(
+    """
+    input parameters for function "get_citations_after_id"
+    """
+    args: get_citations_after_id_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [citations_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [citations_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: citations_bool_exp
+  ): citations_aggregate!
 
   """
   execute function "get_latest_citation" which returns "citations"
@@ -1986,6 +2061,76 @@ type subscription_root {
   fetch data from the table: "collections" using primary key columns
   """
   collections_by_pk(id: uuid!): collections
+
+  """
+  execute function "get_citations_after_id" which returns "citations"
+  """
+  get_citations_after_id(
+    """
+    input parameters for function "get_citations_after_id"
+    """
+    args: get_citations_after_id_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [citations_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [citations_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: citations_bool_exp
+  ): [citations!]!
+
+  """
+  execute function "get_citations_after_id" and query aggregates on result of table type "citations"
+  """
+  get_citations_after_id_aggregate(
+    """
+    input parameters for function "get_citations_after_id"
+    """
+    args: get_citations_after_id_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [citations_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [citations_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: citations_bool_exp
+  ): citations_aggregate!
 
   """
   execute function "get_latest_citation" which returns "citations"

@@ -5,56 +5,54 @@ import 'package:artemis/artemis.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
 import 'package:gql/ast.dart';
-part 'subscribe_to_latest_citation.graphql.g.dart';
+part 'subscribe_to_citations.graphql.g.dart';
 
-mixin SubscribeToLatestCitation$CitationMixin {
+mixin GetCitationsAfterId$CitationMixin {
   int id;
   String text;
   DateTime added;
-  SubscribeToLatestCitation$subscription_root$citations$authors author;
+  GetCitationsAfterId$subscription_root$citations$authors author;
 }
 
 @JsonSerializable(explicitToJson: true)
-class SubscribeToLatestCitation$subscription_root$citations
-    with EquatableMixin, SubscribeToLatestCitation$CitationMixin {
-  SubscribeToLatestCitation$subscription_root$citations();
+class GetCitationsAfterId$subscription_root$citations
+    with EquatableMixin, GetCitationsAfterId$CitationMixin {
+  GetCitationsAfterId$subscription_root$citations();
 
-  factory SubscribeToLatestCitation$subscription_root$citations.fromJson(
+  factory GetCitationsAfterId$subscription_root$citations.fromJson(
           Map<String, dynamic> json) =>
-      _$SubscribeToLatestCitation$subscription_root$citationsFromJson(json);
+      _$GetCitationsAfterId$subscription_root$citationsFromJson(json);
 
   @override
   List<Object> get props => [id, text, added, author];
   Map<String, dynamic> toJson() =>
-      _$SubscribeToLatestCitation$subscription_root$citationsToJson(this);
+      _$GetCitationsAfterId$subscription_root$citationsToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class SubscribeToLatestCitation$subscription_root with EquatableMixin {
-  SubscribeToLatestCitation$subscription_root();
+class GetCitationsAfterId$subscription_root with EquatableMixin {
+  GetCitationsAfterId$subscription_root();
 
-  factory SubscribeToLatestCitation$subscription_root.fromJson(
+  factory GetCitationsAfterId$subscription_root.fromJson(
           Map<String, dynamic> json) =>
-      _$SubscribeToLatestCitation$subscription_rootFromJson(json);
+      _$GetCitationsAfterId$subscription_rootFromJson(json);
 
-  List<SubscribeToLatestCitation$subscription_root$citations>
-      get_latest_citation;
+  List<GetCitationsAfterId$subscription_root$citations> get_citations_after_id;
 
   @override
-  List<Object> get props => [get_latest_citation];
+  List<Object> get props => [get_citations_after_id];
   Map<String, dynamic> toJson() =>
-      _$SubscribeToLatestCitation$subscription_rootToJson(this);
+      _$GetCitationsAfterId$subscription_rootToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class SubscribeToLatestCitation$subscription_root$citations$authors
+class GetCitationsAfterId$subscription_root$citations$authors
     with EquatableMixin {
-  SubscribeToLatestCitation$subscription_root$citations$authors();
+  GetCitationsAfterId$subscription_root$citations$authors();
 
-  factory SubscribeToLatestCitation$subscription_root$citations$authors.fromJson(
+  factory GetCitationsAfterId$subscription_root$citations$authors.fromJson(
           Map<String, dynamic> json) =>
-      _$SubscribeToLatestCitation$subscription_root$citations$authorsFromJson(
-          json);
+      _$GetCitationsAfterId$subscription_root$citations$authorsFromJson(json);
 
   int id;
 
@@ -63,49 +61,54 @@ class SubscribeToLatestCitation$subscription_root$citations$authors
   @override
   List<Object> get props => [id, name];
   Map<String, dynamic> toJson() =>
-      _$SubscribeToLatestCitation$subscription_root$citations$authorsToJson(
-          this);
+      _$GetCitationsAfterId$subscription_root$citations$authorsToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class SubscribeToLatestCitationArguments extends JsonSerializable
+class GetCitationsAfterIdArguments extends JsonSerializable
     with EquatableMixin {
-  SubscribeToLatestCitationArguments({@required this.collectionId});
+  GetCitationsAfterIdArguments(
+      {@required this.collectionId, @required this.lastCitationId});
 
-  factory SubscribeToLatestCitationArguments.fromJson(
-          Map<String, dynamic> json) =>
-      _$SubscribeToLatestCitationArgumentsFromJson(json);
+  factory GetCitationsAfterIdArguments.fromJson(Map<String, dynamic> json) =>
+      _$GetCitationsAfterIdArgumentsFromJson(json);
 
   final String collectionId;
 
+  final int lastCitationId;
+
   @override
-  List<Object> get props => [collectionId];
-  Map<String, dynamic> toJson() =>
-      _$SubscribeToLatestCitationArgumentsToJson(this);
+  List<Object> get props => [collectionId, lastCitationId];
+  Map<String, dynamic> toJson() => _$GetCitationsAfterIdArgumentsToJson(this);
 }
 
-class SubscribeToLatestCitationMutation extends GraphQLQuery<
-    SubscribeToLatestCitation$subscription_root,
-    SubscribeToLatestCitationArguments> {
-  SubscribeToLatestCitationMutation({this.variables});
+class GetCitationsAfterIdMutation extends GraphQLQuery<
+    GetCitationsAfterId$subscription_root, GetCitationsAfterIdArguments> {
+  GetCitationsAfterIdMutation({this.variables});
 
   @override
   final DocumentNode document = DocumentNode(definitions: [
     OperationDefinitionNode(
         type: OperationType.subscription,
-        name: null,
+        name: NameNode(value: 'getCitationsAfterId'),
         variableDefinitions: [
           VariableDefinitionNode(
               variable: VariableNode(name: NameNode(value: 'collectionId')),
               type:
                   NamedTypeNode(name: NameNode(value: 'uuid'), isNonNull: true),
               defaultValue: DefaultValueNode(value: null),
+              directives: []),
+          VariableDefinitionNode(
+              variable: VariableNode(name: NameNode(value: 'lastCitationId')),
+              type:
+                  NamedTypeNode(name: NameNode(value: 'Int'), isNonNull: true),
+              defaultValue: DefaultValueNode(value: null),
               directives: [])
         ],
         directives: [],
         selectionSet: SelectionSetNode(selections: [
           FieldNode(
-              name: NameNode(value: 'get_latest_citation'),
+              name: NameNode(value: 'get_citations_after_id'),
               alias: null,
               arguments: [
                 ArgumentNode(
@@ -114,7 +117,11 @@ class SubscribeToLatestCitationMutation extends GraphQLQuery<
                       ObjectFieldNode(
                           name: NameNode(value: 'collectionid'),
                           value: VariableNode(
-                              name: NameNode(value: 'collectionId')))
+                              name: NameNode(value: 'collectionId'))),
+                      ObjectFieldNode(
+                          name: NameNode(value: 'lastcitationid'),
+                          value: VariableNode(
+                              name: NameNode(value: 'lastCitationId')))
                     ]))
               ],
               directives: [],
@@ -171,15 +178,14 @@ class SubscribeToLatestCitationMutation extends GraphQLQuery<
   ]);
 
   @override
-  final String operationName = 'subscribe_to_latest_citation';
+  final String operationName = 'getCitationsAfterId';
 
   @override
-  final SubscribeToLatestCitationArguments variables;
+  final GetCitationsAfterIdArguments variables;
 
   @override
   List<Object> get props => [document, operationName, variables];
   @override
-  SubscribeToLatestCitation$subscription_root parse(
-          Map<String, dynamic> json) =>
-      SubscribeToLatestCitation$subscription_root.fromJson(json);
+  GetCitationsAfterId$subscription_root parse(Map<String, dynamic> json) =>
+      GetCitationsAfterId$subscription_root.fromJson(json);
 }

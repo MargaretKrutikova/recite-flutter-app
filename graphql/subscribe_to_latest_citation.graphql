@@ -1,5 +1,0 @@
-subscription($collectionId: uuid!) {
-  get_latest_citation(args: { collectionid: $collectionId }) {
-    ...Citation
-  }
-}
