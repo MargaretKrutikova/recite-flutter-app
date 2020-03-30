@@ -1,8 +1,10 @@
-query Citations($slug: String!) {
-  collections(where: { slug: { _eq: $slug } }) {
-    id
-    citations(order_by: { added: desc, id: desc }) {
-      ...Citation
-    }
+query Citations($collectionId: uuid!, $limit: Int!, $offset: Int!) {
+  citations(
+    order_by: { added: desc, id: desc }
+    where: { collectionId: { _eq: $collectionId } }
+    limit: $limit
+    offset: $offset
+  ) {
+    ...Citation
   }
 }

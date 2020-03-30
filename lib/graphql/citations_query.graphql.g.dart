@@ -6,10 +6,9 @@ part of 'citations_query.graphql.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Citations$query_root$collections$citations
-    _$Citations$query_root$collections$citationsFromJson(
-        Map<String, dynamic> json) {
-  return Citations$query_root$collections$citations()
+Citations$query_root$citations _$Citations$query_root$citationsFromJson(
+    Map<String, dynamic> json) {
+  return Citations$query_root$citations()
     ..id = json['id'] as int
     ..text = json['text'] as String
     ..added =
@@ -20,8 +19,8 @@ Citations$query_root$collections$citations
             json['author'] as Map<String, dynamic>);
 }
 
-Map<String, dynamic> _$Citations$query_root$collections$citationsToJson(
-        Citations$query_root$collections$citations instance) =>
+Map<String, dynamic> _$Citations$query_root$citationsToJson(
+        Citations$query_root$citations instance) =>
     <String, dynamic>{
       'id': instance.id,
       'text': instance.text,
@@ -29,31 +28,12 @@ Map<String, dynamic> _$Citations$query_root$collections$citationsToJson(
       'author': instance.author?.toJson(),
     };
 
-Citations$query_root$collections _$Citations$query_root$collectionsFromJson(
-    Map<String, dynamic> json) {
-  return Citations$query_root$collections()
-    ..id = json['id'] as String
+Citations$query_root _$Citations$query_rootFromJson(Map<String, dynamic> json) {
+  return Citations$query_root()
     ..citations = (json['citations'] as List)
         ?.map((e) => e == null
             ? null
-            : Citations$query_root$collections$citations.fromJson(
-                e as Map<String, dynamic>))
-        ?.toList();
-}
-
-Map<String, dynamic> _$Citations$query_root$collectionsToJson(
-        Citations$query_root$collections instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'citations': instance.citations?.map((e) => e?.toJson())?.toList(),
-    };
-
-Citations$query_root _$Citations$query_rootFromJson(Map<String, dynamic> json) {
-  return Citations$query_root()
-    ..collections = (json['collections'] as List)
-        ?.map((e) => e == null
-            ? null
-            : Citations$query_root$collections.fromJson(
+            : Citations$query_root$citations.fromJson(
                 e as Map<String, dynamic>))
         ?.toList();
 }
@@ -61,7 +41,7 @@ Citations$query_root _$Citations$query_rootFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$Citations$query_rootToJson(
         Citations$query_root instance) =>
     <String, dynamic>{
-      'collections': instance.collections?.map((e) => e?.toJson())?.toList(),
+      'citations': instance.citations?.map((e) => e?.toJson())?.toList(),
     };
 
 Citations$query_root$citations$authors
@@ -81,11 +61,15 @@ Map<String, dynamic> _$Citations$query_root$citations$authorsToJson(
 
 CitationsArguments _$CitationsArgumentsFromJson(Map<String, dynamic> json) {
   return CitationsArguments(
-    slug: json['slug'] as String,
+    collectionId: json['collectionId'] as String,
+    limit: json['limit'] as int,
+    offset: json['offset'] as int,
   );
 }
 
 Map<String, dynamic> _$CitationsArgumentsToJson(CitationsArguments instance) =>
     <String, dynamic>{
-      'slug': instance.slug,
+      'collectionId': instance.collectionId,
+      'limit': instance.limit,
+      'offset': instance.offset,
     };

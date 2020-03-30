@@ -15,36 +15,16 @@ mixin Citations$CitationMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class Citations$query_root$collections$citations
+class Citations$query_root$citations
     with EquatableMixin, Citations$CitationMixin {
-  Citations$query_root$collections$citations();
+  Citations$query_root$citations();
 
-  factory Citations$query_root$collections$citations.fromJson(
-          Map<String, dynamic> json) =>
-      _$Citations$query_root$collections$citationsFromJson(json);
+  factory Citations$query_root$citations.fromJson(Map<String, dynamic> json) =>
+      _$Citations$query_root$citationsFromJson(json);
 
   @override
   List<Object> get props => [id, text, added, author];
-  Map<String, dynamic> toJson() =>
-      _$Citations$query_root$collections$citationsToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class Citations$query_root$collections with EquatableMixin {
-  Citations$query_root$collections();
-
-  factory Citations$query_root$collections.fromJson(
-          Map<String, dynamic> json) =>
-      _$Citations$query_root$collectionsFromJson(json);
-
-  String id;
-
-  List<Citations$query_root$collections$citations> citations;
-
-  @override
-  List<Object> get props => [id, citations];
-  Map<String, dynamic> toJson() =>
-      _$Citations$query_root$collectionsToJson(this);
+  Map<String, dynamic> toJson() => _$Citations$query_root$citationsToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -54,10 +34,10 @@ class Citations$query_root with EquatableMixin {
   factory Citations$query_root.fromJson(Map<String, dynamic> json) =>
       _$Citations$query_rootFromJson(json);
 
-  List<Citations$query_root$collections> collections;
+  List<Citations$query_root$citations> citations;
 
   @override
-  List<Object> get props => [collections];
+  List<Object> get props => [citations];
   Map<String, dynamic> toJson() => _$Citations$query_rootToJson(this);
 }
 
@@ -81,15 +61,22 @@ class Citations$query_root$citations$authors with EquatableMixin {
 
 @JsonSerializable(explicitToJson: true)
 class CitationsArguments extends JsonSerializable with EquatableMixin {
-  CitationsArguments({@required this.slug});
+  CitationsArguments(
+      {@required this.collectionId,
+      @required this.limit,
+      @required this.offset});
 
   factory CitationsArguments.fromJson(Map<String, dynamic> json) =>
       _$CitationsArgumentsFromJson(json);
 
-  final String slug;
+  final String collectionId;
+
+  final int limit;
+
+  final int offset;
 
   @override
-  List<Object> get props => [slug];
+  List<Object> get props => [collectionId, limit, offset];
   Map<String, dynamic> toJson() => _$CitationsArgumentsToJson(this);
 }
 
@@ -104,61 +91,63 @@ class CitationsQuery
         name: NameNode(value: 'Citations'),
         variableDefinitions: [
           VariableDefinitionNode(
-              variable: VariableNode(name: NameNode(value: 'slug')),
-              type: NamedTypeNode(
-                  name: NameNode(value: 'String'), isNonNull: true),
+              variable: VariableNode(name: NameNode(value: 'collectionId')),
+              type:
+                  NamedTypeNode(name: NameNode(value: 'uuid'), isNonNull: true),
+              defaultValue: DefaultValueNode(value: null),
+              directives: []),
+          VariableDefinitionNode(
+              variable: VariableNode(name: NameNode(value: 'limit')),
+              type:
+                  NamedTypeNode(name: NameNode(value: 'Int'), isNonNull: true),
+              defaultValue: DefaultValueNode(value: null),
+              directives: []),
+          VariableDefinitionNode(
+              variable: VariableNode(name: NameNode(value: 'offset')),
+              type:
+                  NamedTypeNode(name: NameNode(value: 'Int'), isNonNull: true),
               defaultValue: DefaultValueNode(value: null),
               directives: [])
         ],
         directives: [],
         selectionSet: SelectionSetNode(selections: [
           FieldNode(
-              name: NameNode(value: 'collections'),
+              name: NameNode(value: 'citations'),
               alias: null,
               arguments: [
+                ArgumentNode(
+                    name: NameNode(value: 'order_by'),
+                    value: ObjectValueNode(fields: [
+                      ObjectFieldNode(
+                          name: NameNode(value: 'added'),
+                          value: EnumValueNode(name: NameNode(value: 'desc'))),
+                      ObjectFieldNode(
+                          name: NameNode(value: 'id'),
+                          value: EnumValueNode(name: NameNode(value: 'desc')))
+                    ])),
                 ArgumentNode(
                     name: NameNode(value: 'where'),
                     value: ObjectValueNode(fields: [
                       ObjectFieldNode(
-                          name: NameNode(value: 'slug'),
+                          name: NameNode(value: 'collectionId'),
                           value: ObjectValueNode(fields: [
                             ObjectFieldNode(
                                 name: NameNode(value: '_eq'),
-                                value:
-                                    VariableNode(name: NameNode(value: 'slug')))
+                                value: VariableNode(
+                                    name: NameNode(value: 'collectionId')))
                           ]))
-                    ]))
+                    ])),
+                ArgumentNode(
+                    name: NameNode(value: 'limit'),
+                    value: VariableNode(name: NameNode(value: 'limit'))),
+                ArgumentNode(
+                    name: NameNode(value: 'offset'),
+                    value: VariableNode(name: NameNode(value: 'offset')))
               ],
               directives: [],
               selectionSet: SelectionSetNode(selections: [
-                FieldNode(
-                    name: NameNode(value: 'id'),
-                    alias: null,
-                    arguments: [],
-                    directives: [],
-                    selectionSet: null),
-                FieldNode(
-                    name: NameNode(value: 'citations'),
-                    alias: null,
-                    arguments: [
-                      ArgumentNode(
-                          name: NameNode(value: 'order_by'),
-                          value: ObjectValueNode(fields: [
-                            ObjectFieldNode(
-                                name: NameNode(value: 'added'),
-                                value: EnumValueNode(
-                                    name: NameNode(value: 'desc'))),
-                            ObjectFieldNode(
-                                name: NameNode(value: 'id'),
-                                value: EnumValueNode(
-                                    name: NameNode(value: 'desc')))
-                          ]))
-                    ],
-                    directives: [],
-                    selectionSet: SelectionSetNode(selections: [
-                      FragmentSpreadNode(
-                          name: NameNode(value: 'Citation'), directives: [])
-                    ]))
+                FragmentSpreadNode(
+                    name: NameNode(value: 'Citation'), directives: [])
               ]))
         ])),
     FragmentDefinitionNode(

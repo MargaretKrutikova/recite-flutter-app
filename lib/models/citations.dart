@@ -2,133 +2,104 @@ import 'dart:async';
 
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:recite_flutter/graphql/citations_query.dart';
-import 'package:recite_flutter/graphql/subscribe_to_citations.graphql.dart';
-import 'package:recite_flutter/models/author.dart';
 import 'package:recite_flutter/models/citation.dart';
+import 'package:recite_flutter/models/citation_subscription.dart';
 
 class CitationsModel {
+  final _limit = 20;
+
   GraphQLClient _client;
-
-  Stream<List<Citation>> stream;
-  bool hasMore;
-
-  bool _isLoading;
-  StreamSubscription<FetchResult> _subscription;
+  String _collectionId;
+  CitationSubscription _subscription;
 
   List<Citation> _data;
   StreamController<List<Citation>> _controller;
 
-  CitationsModel(GraphQLClient client) {
+  Stream<List<Citation>> stream;
+  bool hasMore;
+  bool isLoading;
+  bool hasError;
+
+  CitationsModel(GraphQLClient client, String collectionId) {
     _data = List<Citation>();
     _controller = StreamController<List<Citation>>.broadcast();
-    _isLoading = false;
+    _subscription =
+        new CitationSubscription(client, collectionId, _onReceiveSubscription);
 
     _client = client;
+    _collectionId = collectionId;
 
     stream = _controller.stream.map((List<Citation> citations) {
       return citations.toList();
     });
+
+    isLoading = false;
     hasMore = true;
-    // refresh();
   }
 
-  Future<void> loadInitData(String slug) {
-    return this
-        ._client
-        .query(QueryOptions(
-          documentNode:
-              CitationsQuery(variables: CitationsArguments(slug: slug))
-                  .document,
-          variables: CitationsArguments(slug: slug).toJson(),
-        ))
-        .then((res) {
-      if (!res.hasException && res.data != null) {
-        final data = Citations$query_root.fromJson(res.data);
-        final collection =
-            data.collections.length > 0 ? data.collections[0] : null;
-        final List<Citations$query_root$collections$citations> graphqCitations =
-            collection != null ? collection.citations : [];
+  Future<void> loadInitData() {
+    return _loadData();
+  }
 
-        final citations = graphqCitations
-            .map((citation) => Citation(
-                id: citation.id,
-                text: citation.text,
-                author:
-                    Author(id: citation.author.id, name: citation.author.name),
-                added: citation.added))
-            .toList();
+  Future<void> refresh() {
+    if (isLoading) {
+      return Future.value();
+    }
 
-        _data = citations;
-        _controller.add(citations);
-        _subscribe(_data[0].id);
+    return loadInitData();
+  }
+
+  Future<void> loadMore() {
+    if (isLoading || !hasMore) {
+      return Future.value();
+    }
+
+    return _loadData(offset: _data.length);
+  }
+
+  /// private
+
+  void _onDataLoaded(dynamic data) {
+    isLoading = false;
+    hasError = false;
+
+    final root = Citations$query_root.fromJson(data);
+    final citations = root.citations
+        .map((citation) => Citation.fromCitationQuery(citation))
+        .toList();
+
+    _data.addAll(citations);
+    _controller.add(_data);
+  }
+
+  void onLoadQuery(QueryResult result, bool shouldResubscribe) {
+    if (result.hasException) {
+      hasError = true;
+    } else if (result.data != null) {
+      _onDataLoaded(result.data);
+      if (shouldResubscribe) {
+        _subscription.subscribeToLatest(_data);
       }
-    });
-  }
-
-  void _onData(final FetchResult message) {
-    if (message.data != null) {
-      final response =
-          GetCitationsAfterId$subscription_root.fromJson(message.data);
-      final citations = response.get_citations_after_id.map((incoming) =>
-          Citation(
-              id: incoming.id,
-              text: incoming.text,
-              author:
-                  Author(id: incoming.author.id, name: incoming.author.name),
-              added: incoming.added));
-
-      _data = new List.from(citations)..addAll(_data);
-      _controller.add(_data);
-      _subscribe(_data[0].id);
     }
   }
 
-  void _onError(final Object error) {
-    print("GOT ERRORS");
+  Future<void> _loadData({int offset = 0}) {
+    var variables = CitationsArguments(
+        collectionId: _collectionId, offset: offset, limit: _limit);
+
+    var shouldResubscribe = offset == 0;
+
+    return this
+        ._client
+        .query(QueryOptions(
+          documentNode: CitationsQuery(variables: variables).document,
+          variables: variables.toJson(),
+        ))
+        .then((res) => onLoadQuery(res, shouldResubscribe));
   }
 
-  void _onDone() {
-    print("GOT DONW");
+  void _onReceiveSubscription(final List<Citation> citations) {
+    _data = new List.from(citations)..addAll(_data);
+    _controller.add(_data);
   }
-
-  void _subscribe(int lastCitationId) async {
-    final subscription = GetCitationsAfterIdMutation(
-        variables: GetCitationsAfterIdArguments(
-            lastCitationId: lastCitationId,
-            collectionId: 'd60ab8c3-e49b-4c9e-8382-506e4b82c35e'));
-
-    final stream = this._client.subscribe(Operation(
-          documentNode: subscription.document,
-          variables: subscription.variables.toJson(),
-        ));
-
-    _subscription?.cancel();
-
-    _subscription = stream.listen(
-      _onData,
-      onError: _onError,
-      onDone: _onDone,
-    );
-  }
-
-  // Future<void> refresh() {
-  //   return loadMore(clearCachedData: true);
-  // }
-
-  // Future<void> loadMore({bool clearCachedData = false}) {
-  //   if (clearCachedData) {
-  //     _data = List<Map>();
-  //     hasMore = true;
-  //   }
-  //   if (_isLoading || !hasMore) {
-  //     return Future.value();
-  //   }
-  //   _isLoading = true;
-  //   return _getExampleServerData(10).then((postsData) {
-  //     _isLoading = false;
-  //     _data.addAll(postsData);
-  //     hasMore = (_data.length < 30);
-  //     _controller.add(_data);
-  //   });
-  // }
 }
