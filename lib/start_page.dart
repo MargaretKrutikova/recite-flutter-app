@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recite_flutter/models/app_settings.dart';
 import 'package:recite_flutter/theme.dart';
 import 'package:recite_flutter/widgets/primary_button.dart';
 
@@ -10,7 +11,15 @@ class StartPage extends StatefulWidget {
 class _StartPageState extends State<StartPage> {
   final _collectionTextController = TextEditingController();
 
-  void _fetchCollection() {}
+  bool _isCollectionValid() {
+    return _collectionTextController.text.isNotEmpty;
+  }
+
+  void _setCollection() {
+    if (_isCollectionValid()) {
+      AppSettings.saveAppSettings(_collectionTextController.text);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +47,7 @@ class _StartPageState extends State<StartPage> {
                         ),
                       ),
                       PrimaryButton(
-                          onPressed: this._fetchCollection, text: 'Save')
+                          onPressed: this._setCollection, text: 'Save')
                     ],
                   ),
                 ))));
