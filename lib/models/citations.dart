@@ -57,27 +57,27 @@ class CitationsModel {
 
   /// private
 
-  void _onDataLoaded(dynamic data) {
-    isLoading = false;
-    hasError = false;
-
-    final root = Citations$query_root.fromJson(data);
-    final citations = root.citations
-        .map((citation) => Citation.fromCitationQuery(citation))
-        .toList();
-
-    _data.addAll(citations);
-    _controller.add(_data);
-  }
-
-  void onLoadQuery(QueryResult result, bool shouldResubscribe) {
+  void onLoadQuery(QueryResult result, bool loadedInitialData) {
     if (result.hasException) {
       hasError = true;
-    } else if (result.data != null) {
-      _onDataLoaded(result.data);
-      if (shouldResubscribe) {
-        _subscription.subscribeToLatest(_data);
+      return;
+    }
+    if (result.data != null) {
+      isLoading = false;
+      hasError = false;
+
+      final root = Citations$query_root.fromJson(result.data);
+      final citations = root.citations
+          .map((citation) => Citation.fromCitationQuery(citation))
+          .toList();
+
+      if (loadedInitialData) {
+        _data = [];
+        _subscription.subscribeToLatest(citations);
       }
+
+      _data.addAll(citations);
+      _controller.add(_data);
     }
   }
 
@@ -85,7 +85,8 @@ class CitationsModel {
     var variables = CitationsArguments(
         collectionId: _collectionId, offset: offset, limit: _limit);
 
-    var shouldResubscribe = offset == 0;
+    var loadedInitialData = offset == 0;
+    isLoading = true;
 
     return this
         ._client
@@ -93,7 +94,7 @@ class CitationsModel {
           documentNode: CitationsQuery(variables: variables).document,
           variables: variables.toJson(),
         ))
-        .then((res) => onLoadQuery(res, shouldResubscribe));
+        .then((res) => onLoadQuery(res, loadedInitialData));
   }
 
   void _onReceiveSubscription(final List<Citation> citations) {

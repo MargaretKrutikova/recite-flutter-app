@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:recite_flutter/models/citations.dart';
 import 'package:recite_flutter/widgets/add_citation_button.dart';
 import 'package:recite_flutter/widgets/citation_stream_builder.dart';
 
@@ -21,22 +20,6 @@ class CitationsPage extends StatefulWidget {
 }
 
 class _CitationsPageState extends State<CitationsPage> {
-  final scrollController = ScrollController();
-  CitationsModel citations;
-
-  @override
-  void initState() {
-    citations = CitationsModel(widget.client, widget.collectionId);
-    scrollController.addListener(() {
-      if (scrollController.position.maxScrollExtent ==
-          scrollController.offset) {
-        citations.loadMore();
-      }
-    });
-    citations.loadInitData();
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,9 +33,8 @@ class _CitationsPageState extends State<CitationsPage> {
         children: <Widget>[
           Expanded(
               child: CitationStreamBuilder(
-            isLoading: citations.isLoading,
-            onRefresh: citations.refresh,
-            stream: citations.stream,
+            client: widget.client,
+            collectionId: widget.collectionId,
           )),
         ],
       )),

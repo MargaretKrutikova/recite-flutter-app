@@ -1,39 +1,55 @@
 import 'package:flutter/material.dart';
-import 'package:recite_flutter/models/citation.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:recite_flutter/models/citations.dart';
 import 'package:recite_flutter/widgets/citation_card.dart';
 
 typedef OnRefresh = Future<void> Function();
 
-class CitationStreamBuilder extends StatelessWidget {
-  CitationStreamBuilder(
-      {@required this.stream,
-      @required this.onRefresh,
-      @required this.isLoading});
+class CitationStreamBuilder extends StatefulWidget {
+  CitationStreamBuilder({@required this.client, @required this.collectionId});
 
-  final Stream<List<Citation>> stream;
-  final OnRefresh onRefresh;
-  final bool isLoading;
+  final String collectionId;
+  final GraphQLClient client;
 
-  final scrollController = ScrollController();
+  @override
+  _CitationStreamBuilderState createState() => _CitationStreamBuilderState();
+}
+
+class _CitationStreamBuilderState extends State<CitationStreamBuilder> {
+  final _scrollController = ScrollController();
+  CitationsModel citations;
+
+  @override
+  void initState() {
+    citations = CitationsModel(widget.client, widget.collectionId);
+    _scrollController.addListener(() {
+      if (_scrollController.position.maxScrollExtent ==
+          _scrollController.offset) {
+        citations.loadMore();
+      }
+    });
+    citations.loadInitData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: stream,
+      stream: citations.stream,
       builder: (BuildContext _context, AsyncSnapshot _snapshot) {
         if (!_snapshot.hasData) {
           return Center(child: CircularProgressIndicator());
         } else {
           return RefreshIndicator(
-              onRefresh: onRefresh,
+              onRefresh: citations.refresh,
               child: ListView.builder(
                 padding: EdgeInsets.symmetric(vertical: 8.0),
-                controller: scrollController,
+                controller: _scrollController,
                 itemCount: _snapshot.data.length + 1,
                 itemBuilder: (BuildContext _context, int index) {
                   if (index < _snapshot.data.length) {
                     return CitationCard(citation: _snapshot.data[index]);
-                  } else if (isLoading) {
+                  } else if (citations.isLoading) {
                     return Padding(
                       padding: EdgeInsets.symmetric(vertical: 32.0),
                       child: Center(child: CircularProgressIndicator()),
