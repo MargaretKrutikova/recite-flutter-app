@@ -5,10 +5,14 @@ import 'package:recite_flutter/widgets/citation_card.dart';
 typedef OnRefresh = Future<void> Function();
 
 class CitationStreamBuilder extends StatelessWidget {
-  CitationStreamBuilder({@required this.stream, @required this.onRefresh});
+  CitationStreamBuilder(
+      {@required this.stream,
+      @required this.onRefresh,
+      @required this.isLoading});
 
   final Stream<List<Citation>> stream;
   final OnRefresh onRefresh;
+  final bool isLoading;
 
   final scrollController = ScrollController();
 
@@ -21,15 +25,24 @@ class CitationStreamBuilder extends StatelessWidget {
           return Center(child: CircularProgressIndicator());
         } else {
           return RefreshIndicator(
-            onRefresh: onRefresh,
-            child: ListView.separated(
+              onRefresh: onRefresh,
+              child: ListView.builder(
                 padding: EdgeInsets.symmetric(vertical: 8.0),
                 controller: scrollController,
-                separatorBuilder: (context, index) => Divider(),
                 itemCount: _snapshot.data.length + 1,
-                itemBuilder: (BuildContext _context, int index) =>
-                    CitationCard(citation: _snapshot.data[index])),
-          );
+                itemBuilder: (BuildContext _context, int index) {
+                  if (index < _snapshot.data.length) {
+                    return CitationCard(citation: _snapshot.data[index]);
+                  } else if (isLoading) {
+                    return Padding(
+                      padding: EdgeInsets.symmetric(vertical: 32.0),
+                      child: Center(child: CircularProgressIndicator()),
+                    );
+                  } else {
+                    return Text("");
+                  }
+                },
+              ));
         }
       },
     );

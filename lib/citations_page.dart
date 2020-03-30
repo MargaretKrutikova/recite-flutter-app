@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:recite_flutter/models/citations.dart';
@@ -7,16 +5,15 @@ import 'package:recite_flutter/widgets/add_citation_button.dart';
 import 'package:recite_flutter/widgets/citation_stream_builder.dart';
 
 class CitationsPage extends StatefulWidget {
-  CitationsPage({
-    Key key,
-    @required this.title,
-    @required this.client,
-    @required this.collectionSlug,
-  }) : super(key: key);
+  CitationsPage(
+      {Key key,
+      @required this.title,
+      @required this.client,
+      @required this.collectionId})
+      : super(key: key);
 
   final String title;
-  final String collectionSlug;
-
+  final String collectionId;
   final GraphQLClient client;
 
   @override
@@ -29,13 +26,14 @@ class _CitationsPageState extends State<CitationsPage> {
 
   @override
   void initState() {
-    citations = CitationsModel(widget.client);
+    citations = CitationsModel(widget.client, widget.collectionId);
     scrollController.addListener(() {
-      // if (scrollController.position.maxScrollExtent == scrollController.offset) {
-      //   posts.loadMore();
-      // }
+      if (scrollController.position.maxScrollExtent ==
+          scrollController.offset) {
+        citations.loadMore();
+      }
     });
-    citations.loadInitData(widget.collectionSlug);
+    citations.loadInitData();
     super.initState();
   }
 
@@ -52,14 +50,15 @@ class _CitationsPageState extends State<CitationsPage> {
         children: <Widget>[
           Expanded(
               child: CitationStreamBuilder(
-            onRefresh: () => Completer().future,
+            isLoading: citations.isLoading,
+            onRefresh: citations.refresh,
             stream: citations.stream,
           )),
         ],
       )),
       floatingActionButton: AddCitationButton(
         client: widget.client,
-        collectionId: 'd60ab8c3-e49b-4c9e-8382-506e4b82c35e',
+        collectionId: widget.collectionId,
       ),
     );
   }

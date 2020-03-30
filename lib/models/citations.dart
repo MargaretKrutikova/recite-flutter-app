@@ -16,7 +16,6 @@ class CitationsModel {
   StreamController<List<Citation>> _controller;
 
   Stream<List<Citation>> stream;
-  bool hasMore;
   bool isLoading;
   bool hasError;
 
@@ -34,7 +33,6 @@ class CitationsModel {
     });
 
     isLoading = false;
-    hasMore = true;
   }
 
   Future<void> loadInitData() {
@@ -50,7 +48,7 @@ class CitationsModel {
   }
 
   Future<void> loadMore() {
-    if (isLoading || !hasMore) {
+    if (isLoading) {
       return Future.value();
     }
 
