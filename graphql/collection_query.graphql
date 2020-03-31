@@ -1,0 +1,11 @@
+query Collection($namePattern: String!) {
+  collections(where: { name: { _ilike: $namePattern } }) {
+    id
+    name
+    slug
+    authors {
+      id
+      name
+    }
+  }
+}
