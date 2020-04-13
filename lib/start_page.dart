@@ -50,7 +50,7 @@ class _StartPageState extends State<StartPage> {
             MaterialPageRoute(
                 builder: (context) => CitationsPage(
                     title: 'Citations for ' + collection.name,
-                    collectionId: collection.id,
+                    collection: collection,
                     client: widget.client)),
           );
         }

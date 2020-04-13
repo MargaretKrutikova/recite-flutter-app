@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:recite_flutter/models/collection.dart';
 import 'package:recite_flutter/widgets/add_citation_button.dart';
 import 'package:recite_flutter/widgets/citation_stream_builder.dart';
 
@@ -8,11 +9,11 @@ class CitationsPage extends StatefulWidget {
       {Key key,
       @required this.title,
       @required this.client,
-      @required this.collectionId})
+      @required this.collection})
       : super(key: key);
 
   final String title;
-  final String collectionId;
+  final Collection collection;
   final GraphQLClient client;
 
   @override
@@ -34,13 +35,13 @@ class _CitationsPageState extends State<CitationsPage> {
           Expanded(
               child: CitationStreamBuilder(
             client: widget.client,
-            collectionId: widget.collectionId,
+            collectionId: widget.collection.id,
           )),
         ],
       )),
       floatingActionButton: AddCitationButton(
         client: widget.client,
-        collectionId: widget.collectionId,
+        collection: widget.collection,
       ),
     );
   }

@@ -47,11 +47,11 @@ class _CollectionPageState extends State<CollectionPage> {
                         child: TextField(
                           decoration: InputDecoration(labelText: 'Collection'),
                           controller: _collectionTextController,
-                          style: Theme.of(context).textTheme.body1,
+                          style: Theme.of(context).textTheme.bodyText2,
                         ),
                       ),
                       PrimaryButton(
-                          onPressed: this._setCollection, text: 'Save'),
+                          onPressed: this._setCollection, text: 'Continue'),
                       widget.isLoading
                           ? Padding(
                               padding: EdgeInsets.symmetric(vertical: 32.0),
