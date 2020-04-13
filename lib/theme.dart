@@ -4,6 +4,7 @@ class AppColors {
   // light green
   static const primaryColor = const Color(0xFF1bb390);
   static const darkBackgroundColor = const Color(0xFF353d4a);
+  static const darkerBackgroundColor = const Color(0xFF2B323C);
 }
 
 final TextTheme appTextTheme = new TextTheme(

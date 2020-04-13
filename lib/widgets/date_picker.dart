@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:recite_flutter/theme.dart';
 
 typedef void DateChangedCallback(DateTime dateTime);
 
@@ -12,6 +13,15 @@ class DatePicker extends StatelessWidget {
   Future<Null> _selectDate(BuildContext context) async {
     final DateTime pickedDate = await showDatePicker(
         context: context,
+        builder: (BuildContext context, Widget child) {
+          return Theme(
+            data: Theme.of(context).copyWith(
+              dialogBackgroundColor:
+                  AppColors.darkerBackgroundColor, //Background color
+            ),
+            child: child,
+          );
+        },
         initialDate: this.date,
         firstDate: DateTime(2019),
         lastDate: DateTime.now());
@@ -36,8 +46,9 @@ class DatePicker extends StatelessWidget {
             child: Text(
               'Choose Date',
               style: TextStyle(
-                fontWeight: FontWeight.bold,
-              ),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18.0,
+                  color: Theme.of(context).primaryTextTheme.button.color),
             ),
             onPressed: () => _selectDate(context),
           )
