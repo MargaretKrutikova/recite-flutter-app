@@ -37,9 +37,13 @@ class DatePicker extends StatelessWidget {
         height: 70,
         child: Row(children: <Widget>[
           Expanded(
-            child: Text(
-              date == null ? 'No date chosen' : DateFormat.yMd().format(date),
-            ),
+            child: new GestureDetector(
+                onTap: () => _selectDate(context),
+                child: Text(
+                  date == null
+                      ? 'No date chosen'
+                      : DateFormat.yMd().format(date),
+                )),
           ),
           FlatButton(
             textColor: Theme.of(context).primaryColor,
