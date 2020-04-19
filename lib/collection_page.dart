@@ -29,6 +29,7 @@ class _CollectionPageState extends State<CollectionPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: AppColors.darkBackgroundColor,
+        resizeToAvoidBottomInset: false,
         body: SafeArea(
             child: new Container(
                 margin: const EdgeInsets.all(20.0),
