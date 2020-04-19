@@ -42,8 +42,9 @@ class AuthorPicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        child: ListView.builder(
-            itemCount: authors.length,
-            itemBuilder: (context, i) => _buildRow(authors[i], context)));
+        child: Scrollbar(
+            child: ListView.builder(
+                itemCount: authors.length,
+                itemBuilder: (context, i) => _buildRow(authors[i], context))));
   }
 }

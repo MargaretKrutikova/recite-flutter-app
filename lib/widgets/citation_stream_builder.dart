@@ -42,7 +42,8 @@ class _CitationStreamBuilderState extends State<CitationStreamBuilder> {
         } else {
           return RefreshIndicator(
               onRefresh: citations.refresh,
-              child: ListView.builder(
+              child: Scrollbar(
+                  child: ListView.builder(
                 padding: EdgeInsets.symmetric(vertical: 8.0),
                 controller: _scrollController,
                 itemCount: _snapshot.data.length + 1,
@@ -58,7 +59,7 @@ class _CitationStreamBuilderState extends State<CitationStreamBuilder> {
                     return Text("");
                   }
                 },
-              ));
+              )));
         }
       },
     );
