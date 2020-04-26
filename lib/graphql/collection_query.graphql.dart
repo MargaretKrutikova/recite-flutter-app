@@ -8,24 +8,6 @@ import 'package:gql/ast.dart';
 part 'collection_query.graphql.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class Collection$query_root$collections$authors with EquatableMixin {
-  Collection$query_root$collections$authors();
-
-  factory Collection$query_root$collections$authors.fromJson(
-          Map<String, dynamic> json) =>
-      _$Collection$query_root$collections$authorsFromJson(json);
-
-  int id;
-
-  String name;
-
-  @override
-  List<Object> get props => [id, name];
-  Map<String, dynamic> toJson() =>
-      _$Collection$query_root$collections$authorsToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
 class Collection$query_root$collections with EquatableMixin {
   Collection$query_root$collections();
 
@@ -39,10 +21,8 @@ class Collection$query_root$collections with EquatableMixin {
 
   String slug;
 
-  List<Collection$query_root$collections$authors> authors;
-
   @override
-  List<Object> get props => [id, name, slug, authors];
+  List<Object> get props => [id, name, slug];
   Map<String, dynamic> toJson() =>
       _$Collection$query_root$collectionsToJson(this);
 }
@@ -130,26 +110,7 @@ class CollectionQuery
                     alias: null,
                     arguments: [],
                     directives: [],
-                    selectionSet: null),
-                FieldNode(
-                    name: NameNode(value: 'authors'),
-                    alias: null,
-                    arguments: [],
-                    directives: [],
-                    selectionSet: SelectionSetNode(selections: [
-                      FieldNode(
-                          name: NameNode(value: 'id'),
-                          alias: null,
-                          arguments: [],
-                          directives: [],
-                          selectionSet: null),
-                      FieldNode(
-                          name: NameNode(value: 'name'),
-                          alias: null,
-                          arguments: [],
-                          directives: [],
-                          selectionSet: null)
-                    ]))
+                    selectionSet: null)
               ]))
         ]))
   ]);

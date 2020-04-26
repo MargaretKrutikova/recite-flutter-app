@@ -6,33 +6,12 @@ part of 'collection_query.graphql.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Collection$query_root$collections$authors
-    _$Collection$query_root$collections$authorsFromJson(
-        Map<String, dynamic> json) {
-  return Collection$query_root$collections$authors()
-    ..id = json['id'] as int
-    ..name = json['name'] as String;
-}
-
-Map<String, dynamic> _$Collection$query_root$collections$authorsToJson(
-        Collection$query_root$collections$authors instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'name': instance.name,
-    };
-
 Collection$query_root$collections _$Collection$query_root$collectionsFromJson(
     Map<String, dynamic> json) {
   return Collection$query_root$collections()
     ..id = json['id'] as String
     ..name = json['name'] as String
-    ..slug = json['slug'] as String
-    ..authors = (json['authors'] as List)
-        ?.map((e) => e == null
-            ? null
-            : Collection$query_root$collections$authors.fromJson(
-                e as Map<String, dynamic>))
-        ?.toList();
+    ..slug = json['slug'] as String;
 }
 
 Map<String, dynamic> _$Collection$query_root$collectionsToJson(
@@ -41,7 +20,6 @@ Map<String, dynamic> _$Collection$query_root$collectionsToJson(
       'id': instance.id,
       'name': instance.name,
       'slug': instance.slug,
-      'authors': instance.authors?.map((e) => e?.toJson())?.toList(),
     };
 
 Collection$query_root _$Collection$query_rootFromJson(

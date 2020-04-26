@@ -1,0 +1,6 @@
+query Authors($collectionId: uuid!) {
+  authors(where: { collectionId: { _eq: $collectionId } }) {
+    id
+    name
+  }
+}

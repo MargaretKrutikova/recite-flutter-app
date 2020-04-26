@@ -3,9 +3,5 @@ query Collection($namePattern: String!) {
     id
     name
     slug
-    authors {
-      id
-      name
-    }
   }
 }
