@@ -47,8 +47,8 @@ android {
         applicationId "com.creative.recite"
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 1 
-        versionName "0.1" 
+        versionCode 3
+        versionName "0.3" 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 

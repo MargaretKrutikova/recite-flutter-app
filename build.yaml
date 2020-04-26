@@ -21,6 +21,9 @@ targets:
             - schema: schema.graphql
               queries_glob: graphql/collection_query.graphql
               output: lib/graphql/collection_query.dart
+            - schema: schema.graphql
+              queries_glob: graphql/authors_query.graphql
+              output: lib/graphql/authors_query.dart
           custom_parser_import: "package:recite_flutter/coercers.dart"
           scalar_mapping:
             - graphql_type: date

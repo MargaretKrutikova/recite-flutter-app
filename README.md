@@ -8,6 +8,10 @@ A new Flutter project.
 flutter pub run build_runner build
 ```
 
+## Build for android
+
+flutter build appbundle
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
