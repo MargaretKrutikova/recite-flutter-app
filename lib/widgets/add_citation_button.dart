@@ -49,33 +49,10 @@ class AddCitationButton extends StatelessWidget {
             builder: (context) => FractionallySizedBox(
                 heightFactor: 0.8,
                 child: EditCitation(
+                  collectionId: this.collection.id,
                   onSubmit: (CitationForm citation) =>
                       addCitation(context, citation),
-                  authors: this.collection.authors,
                 )));
-        // Column(
-        //   children: <Widget>[
-        //     Expanded(child: Container(child: Text("Hej"))),
-        //     Text("Hej"),
-        //     Container(
-        //         padding: EdgeInsets.all(20.0),
-        //         child: EditCitation(
-        //           onSubmit: (CitationForm citation) =>
-        //               addCitation(context, citation),
-        //           authors: this.collection.authors,
-        //         ))
-        //   ],
-        // )));
-        // FractionallySizedBox(
-        //     heightFactor: 0.8,
-        //     child: Container(
-        //         child: Container(
-        //             padding: EdgeInsets.all(20.0),
-        //             child: EditCitation(
-        //               onSubmit: (CitationForm citation) =>
-        //                   addCitation(context, citation),
-        //               authors: this.collection.authors,
-        //             )))));
       },
       tooltip: 'Add citation',
       child: Icon(Icons.add),

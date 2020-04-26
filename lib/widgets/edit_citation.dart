@@ -7,9 +7,9 @@ import './date_picker.dart';
 import '../models/citation_form.dart';
 
 class EditCitation extends StatefulWidget {
-  EditCitation({@required this.onSubmit, @required this.authors});
+  EditCitation({@required this.onSubmit, @required this.collectionId});
   final Function onSubmit;
-  final List<Author> authors;
+  final String collectionId;
 
   @override
   _EditCitationState createState() => _EditCitationState();
@@ -71,7 +71,7 @@ class _EditCitationState extends State<EditCitation> {
               )),
           Expanded(
               child: AuthorPicker(
-            authors: widget.authors,
+            collectionId: widget.collectionId,
             onSelect: _setAuthorName,
             selectedAuthorName: _authorName,
           )),
