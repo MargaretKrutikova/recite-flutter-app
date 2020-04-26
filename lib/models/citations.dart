@@ -91,9 +91,9 @@ class CitationsModel {
     return this
         ._client
         .query(QueryOptions(
-          documentNode: CitationsQuery(variables: variables).document,
-          variables: variables.toJson(),
-        ))
+            documentNode: CitationsQuery(variables: variables).document,
+            variables: variables.toJson(),
+            fetchPolicy: FetchPolicy.networkOnly))
         .then((res) => onLoadQuery(res, loadedInitialData));
   }
 
