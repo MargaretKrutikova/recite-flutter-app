@@ -48,7 +48,7 @@ class _CollectionPageState extends State<CollectionPage> {
                         child: TextField(
                           decoration: InputDecoration(labelText: 'Collection'),
                           controller: _collectionTextController,
-                          style: Theme.of(context).textTheme.bodyText2,
+                          style: Theme.of(context).textTheme.body2,
                         ),
                       ),
                       PrimaryButton(

@@ -60,14 +60,14 @@ class _EditCitationState extends State<EditCitation> {
           TextField(
             decoration: InputDecoration(labelText: 'Citation'),
             controller: _citationTextController,
-            style: Theme.of(context).textTheme.bodyText1,
+            style: Theme.of(context).textTheme.body1,
           ),
           Container(
               margin: EdgeInsets.only(bottom: 20.0),
               child: TextField(
                 decoration: InputDecoration(labelText: 'Author'),
                 controller: _authorController,
-                style: Theme.of(context).textTheme.bodyText1,
+                style: Theme.of(context).textTheme.body1,
               )),
           Expanded(
               child: AuthorPicker(

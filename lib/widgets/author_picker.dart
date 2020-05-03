@@ -32,7 +32,7 @@ class AuthorPicker extends StatelessWidget {
               children: <Widget>[
                 Text(
                   author.name,
-                  style: Theme.of(context).textTheme.subtitle1,
+                  style: Theme.of(context).textTheme.subtitle,
                 ),
                 selectedAuthorName == author.name
                     ? Icon(Icons.done, color: AppColors.primaryColor)
