@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:recite_flutter/models/citation.dart';
 
 class CitationCard extends StatelessWidget {
-  CitationCard({@required this.citation});
+  CitationCard({@required this.citation, @required this.onPress});
 
   final Citation citation;
+  final Function onPress;
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +27,7 @@ class CitationCard extends StatelessWidget {
                 )),
             new Text(citation.author.name,
                 style: Theme.of(context).textTheme.subhead),
+            new FloatingActionButton(onPressed: this.onPress),
           ],
         ),
       ),
