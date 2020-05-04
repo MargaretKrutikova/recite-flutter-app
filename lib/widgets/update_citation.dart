@@ -4,6 +4,7 @@ import 'package:recite_flutter/models/update_citation_form.dart';
 import 'package:recite_flutter/widgets/author_picker.dart';
 import 'package:recite_flutter/widgets/primary_button.dart';
 import './date_picker.dart';
+import 'cancel_button.dart';
 
 class UpdateCitation extends StatefulWidget {
   UpdateCitation(
@@ -99,14 +100,14 @@ class _UpdateCitationState extends State<UpdateCitation> {
             onDateChanged: _setAddedDate,
           ),
           Container(
-              padding: EdgeInsets.only(bottom: 50.0),
+              padding: EdgeInsets.only(bottom: 15.0),
               child: PrimaryButton(
                 onPressed: this._submitData,
                 text: "Save",
               )),
           Container(
-              padding: EdgeInsets.only(bottom: 50.0),
-              child: PrimaryButton(
+              padding: EdgeInsets.only(bottom: 20.0),
+              child: CancelButton(
                 onPressed: this._cancelEdit,
                 text: "Cancel",
               )),

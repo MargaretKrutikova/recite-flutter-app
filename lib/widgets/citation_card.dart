@@ -15,22 +15,25 @@ class CitationCard extends StatelessWidget {
       ),
       elevation: 2,
       margin: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Padding(
-        padding: EdgeInsets.all(20.0),
-        child: new Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            new Container(
-                margin: const EdgeInsets.only(bottom: 10.0),
-                child: Row(
-                  children: <Widget>[Flexible(child: new Text(citation.text))],
-                )),
-            new Text(citation.author.name,
-                style: Theme.of(context).textTheme.subhead),
-            new FloatingActionButton(onPressed: this.onPress),
-          ],
-        ),
-      ),
+      child: new InkWell(
+          onTap: this.onPress,
+          child: Padding(
+            padding: EdgeInsets.all(20.0),
+            child: new Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                new Container(
+                    margin: const EdgeInsets.only(bottom: 10.0),
+                    child: Row(
+                      children: <Widget>[
+                        Flexible(child: new Text(citation.text))
+                      ],
+                    )),
+                new Text(citation.author.name,
+                    style: Theme.of(context).textTheme.subhead),
+              ],
+            ),
+          )),
     );
   }
 }

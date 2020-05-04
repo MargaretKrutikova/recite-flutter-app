@@ -1,26 +1,12 @@
-import 'package:flutter/material.dart';
 import 'package:recite_flutter/theme.dart';
 
-class PrimaryButton extends StatelessWidget {
-  PrimaryButton({@required this.text, @required this.onPressed});
+import 'base_button.dart';
 
-  final String text;
-  final void Function() onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 45,
-      width: double.infinity,
-      child: RaisedButton(
-          child: Text(
-            text,
-            style: TextStyle(fontSize: 18),
-          ),
-          shape: RoundedRectangleBorder(
-              borderRadius: new BorderRadius.circular(20.0)),
-          onPressed: onPressed,
-          color: AppColors.primaryColor),
-    );
-  }
+class PrimaryButton extends BaseButton {
+  PrimaryButton({text, onPressed})
+      : super(
+            text: text,
+            onPressed: onPressed,
+            backgroundColor: AppColors.primaryColor,
+            textColor: AppColors.defaultTextColor);
 }
