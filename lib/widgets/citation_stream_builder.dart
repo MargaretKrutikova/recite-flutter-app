@@ -44,7 +44,7 @@ class _CitationStreamBuilderState extends State<CitationStreamBuilder> {
     final variables = UpdateCitationArguments(
         id: citation.id,
         authorName: citation.author,
-        date: DateTime.now(),
+        date: citation.addedDate,
         text: citation.text,
         collectionId: widget.collectionId);
 
@@ -55,6 +55,7 @@ class _CitationStreamBuilderState extends State<CitationStreamBuilder> {
 
     final queryResult = await widget.client.mutate(_options);
 
+    citations.refresh();
     _closeBottomSheetNavigation(context);
     return queryResult;
   }
