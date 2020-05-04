@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:recite_flutter/graphql/add_citation_mutation.graphql.dart';
-import 'package:recite_flutter/models/citation_form.dart';
+import 'package:recite_flutter/graphql/update_citation_mutation.graphql.dart';
 import 'package:recite_flutter/models/citations.dart';
+import 'package:recite_flutter/models/update_citation_form.dart';
 import 'package:recite_flutter/widgets/citation_card.dart';
-import 'edit_citation.dart';
+import 'update_citation.dart';
 
 typedef OnRefresh = Future<void> Function();
 
@@ -39,16 +39,17 @@ class _CitationStreamBuilderState extends State<CitationStreamBuilder> {
     Navigator.of(context).pop();
   }
 
-  Future<QueryResult> addCitation(
-      BuildContext context, CitationForm citation) async {
-    final variables = AddCitationArguments(
+  Future<QueryResult> updateCitation(
+      BuildContext context, UpdateCitationForm citation) async {
+    final variables = UpdateCitationArguments(
+        id: citation.id,
         authorName: citation.author,
         date: DateTime.now(),
         text: citation.text,
         collectionId: widget.collectionId);
 
     final MutationOptions _options = MutationOptions(
-      documentNode: AddCitationMutation(variables: variables).document,
+      documentNode: UpdateCitationMutation(variables: variables).document,
       variables: variables.toJson(),
     );
 
@@ -56,6 +57,10 @@ class _CitationStreamBuilderState extends State<CitationStreamBuilder> {
 
     _closeBottomSheetNavigation(context);
     return queryResult;
+  }
+
+  void cancelUpdate(BuildContext context) async {
+    _closeBottomSheetNavigation(context);
   }
 
   @override
@@ -75,8 +80,9 @@ class _CitationStreamBuilderState extends State<CitationStreamBuilder> {
                 itemCount: _snapshot.data.length + 1,
                 itemBuilder: (BuildContext _context, int index) {
                   if (index < _snapshot.data.length) {
+                    var citation = _snapshot.data[index];
                     return CitationCard(
-                      citation: _snapshot.data[index],
+                      citation: citation,
                       onPress: () {
                         showModalBottomSheet(
                             context: context,
@@ -87,10 +93,12 @@ class _CitationStreamBuilderState extends State<CitationStreamBuilder> {
                             isScrollControlled: true,
                             builder: (context) => FractionallySizedBox(
                                 heightFactor: 0.8,
-                                child: EditCitation(
+                                child: UpdateCitation(
+                                  citationToUpdate: citation,
                                   collectionId: widget.collectionId,
-                                  onSubmit: (CitationForm citation) =>
-                                      addCitation(context, citation),
+                                  onSubmit: (UpdateCitationForm citation) =>
+                                      updateCitation(context, citation),
+                                  onCancel: () => cancelUpdate(context),
                                 )));
                       },
                     );
