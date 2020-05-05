@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:recite_flutter/theme.dart';
+
+import '../theme.dart';
 
 class PrimaryButton extends StatelessWidget {
-  PrimaryButton({@required this.text, @required this.onPressed});
+  PrimaryButton(
+      {@required this.text,
+      @required this.onPressed,
+      this.textColor,
+      this.backgroundColor});
 
   final String text;
   final void Function() onPressed;
+  final Color textColor;
+  final Color backgroundColor;
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +22,7 @@ class PrimaryButton extends StatelessWidget {
       child: RaisedButton(
           child: Text(
             text,
-            style: TextStyle(fontSize: 18),
+            style: TextStyle(fontSize: 18, color: this.textColor),
           ),
           shape: RoundedRectangleBorder(
               borderRadius: new BorderRadius.circular(20.0)),

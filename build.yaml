@@ -16,6 +16,9 @@ targets:
               queries_glob: graphql/add_citation_mutation.graphql
               output: lib/graphql/add_citation_mutation.dart
             - schema: schema.graphql
+              queries_glob: graphql/update_citation_mutation.graphql
+              output: lib/graphql/update_citation_mutation.dart
+            - schema: schema.graphql
               queries_glob: graphql/subscribe_to_citations.graphql
               output: lib/graphql/subscribe_to_citations.dart
             - schema: schema.graphql

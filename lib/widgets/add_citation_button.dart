@@ -49,6 +49,8 @@ class AddCitationButton extends StatelessWidget {
             builder: (context) => FractionallySizedBox(
                 heightFactor: 0.8,
                 child: EditCitation(
+                  citationForm: new CitationForm(
+                      text: "", author: "", addedDate: DateTime.now()),
                   collectionId: this.collection.id,
                   onSubmit: (CitationForm citation) =>
                       addCitation(context, citation),
