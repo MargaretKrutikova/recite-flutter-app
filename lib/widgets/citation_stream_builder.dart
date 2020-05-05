@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:recite_flutter/graphql/update_citation_mutation.graphql.dart';
+import 'package:recite_flutter/models/citation.dart';
+import 'package:recite_flutter/models/citation_form.dart';
 import 'package:recite_flutter/models/citations.dart';
-import 'package:recite_flutter/models/update_citation_form.dart';
 import 'package:recite_flutter/widgets/citation_card.dart';
-import 'update_citation.dart';
+import 'edit_citation.dart';
 
 typedef OnRefresh = Future<void> Function();
 
@@ -40,9 +41,9 @@ class _CitationStreamBuilderState extends State<CitationStreamBuilder> {
   }
 
   Future<QueryResult> updateCitation(
-      BuildContext context, UpdateCitationForm citation) async {
+      BuildContext context, CitationForm citation, int citationId) async {
     final variables = UpdateCitationArguments(
-        id: citation.id,
+        id: citationId,
         authorName: citation.author,
         date: citation.addedDate,
         text: citation.text,
@@ -81,9 +82,9 @@ class _CitationStreamBuilderState extends State<CitationStreamBuilder> {
                 itemCount: _snapshot.data.length + 1,
                 itemBuilder: (BuildContext _context, int index) {
                   if (index < _snapshot.data.length) {
-                    var citation = _snapshot.data[index];
+                    Citation currentCitation = _snapshot.data[index];
                     return CitationCard(
-                      citation: citation,
+                      citation: currentCitation,
                       onPress: () {
                         showModalBottomSheet(
                             context: context,
@@ -94,12 +95,15 @@ class _CitationStreamBuilderState extends State<CitationStreamBuilder> {
                             isScrollControlled: true,
                             builder: (context) => FractionallySizedBox(
                                 heightFactor: 0.8,
-                                child: UpdateCitation(
-                                  citationToUpdate: citation,
+                                child: EditCitation(
+                                  citationForm: new CitationForm(
+                                      text: currentCitation.text,
+                                      author: currentCitation.author.name,
+                                      addedDate: currentCitation.added),
                                   collectionId: widget.collectionId,
-                                  onSubmit: (UpdateCitationForm citation) =>
-                                      updateCitation(context, citation),
-                                  onCancel: () => cancelUpdate(context),
+                                  onSubmit: (CitationForm citation) =>
+                                      updateCitation(context, citation,
+                                          currentCitation.id),
                                 )));
                       },
                     );
