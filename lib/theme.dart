@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 
 class AppColors {
   // light green
-  static const defaultTextColor = const Color(0xFFFFFFFF);
   static const primaryColor = const Color(0xFF1bb390);
-  static const cancelColor = const Color(0xFFBFE2DA);
   static const darkBackgroundColor = const Color(0xFF353d4a);
   static const darkerBackgroundColor = const Color(0xFF2B323C);
 }
