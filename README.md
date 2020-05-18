@@ -22,5 +22,9 @@ flutter pub run build_runner build
 
 ## Build for android
 
+```sh
 flutter build appbundle
+```
+
+Release bundle will end up at <app dir>/build/app/outputs/bundle/release/app.aab.
 
