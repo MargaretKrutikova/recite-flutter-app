@@ -1,6 +1,18 @@
-# recite_flutter
+# Recite mobile
 
-A new Flutter project.
+A mobile app for [re-cite](https://recite.netlify.app/) - a website for collecting citations. The app is written in [`flutter`](https://flutter.dev/) using a [`hasura`](https://hasura.io/) `GraphQL` api and auto-generating domain types from `GraphQL` queries.
+
+The website is written with `ReasonML`, `React`, `GraphQL` and can be found on [github](https://github.com/MargaretKrutikova/re-cite). 
+
+## Features
+
+This is a work-in-progress, following features are implemented:
+- fetching citations by the name of the collection,
+- infinite scroll pagination,
+- adding citations with automatic refresh via `GraphQL` subscriptions, 
+- adding authors.
+
+To be continued 😅
 
 ## Generate GraphQL types
 
@@ -12,15 +24,3 @@ flutter pub run build_runner build
 
 flutter build appbundle
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
