@@ -16,8 +16,7 @@ This is a work-in-progress, following features are implemented:
 Here is how it looks (the citations are completely made-up, any resemblance with reality is purely accidental):
 
 <div>
-  <image alt="citations list" src="./citations_list.jpg" style="width: 300px"
-  />
+  <image alt="citations list" src="./citations_list.jpg" width="300"/>
 </div>
 
 To be continued 😅
